@@ -83,7 +83,7 @@ public class Play
                             break OUTER;
                         }
                     }
-                    System.out.println("Enter the correct option");
+                    System.out.println("Enter the correct option "+Arrays.toString(checkInput));
 
                 }
                 catch(InputMismatchException e)
