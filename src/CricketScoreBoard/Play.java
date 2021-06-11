@@ -108,7 +108,7 @@ public class Play
 
             String tempName;
             int[] tempArray;
-
+            int check=0;
             //current striker, nonstriker details 
             int[] strikerScoreDetails=matchDetails.batterDetails.clone();
             int[] nonStrikerScoreDetails=matchDetails.batterDetails.clone();  
@@ -203,7 +203,10 @@ public class Play
                             //if the team all out,the innings will end
                             if(batterId==battingTeam.length)
                             {
+                                //if(!battingScoreBoard.containsKey(nonStriker))
+                                battingScoreBoard.put(nonStriker+" Not Out", Arrays.toString(nonStrikerScoreDetails)); 
                                 bowlingScoreBoard.put(bowlerName, Arrays.toString(bowlingDetails));
+                                check+=1;
                                 System.out.println("All Out\n");break OUTER;
                             }
 
@@ -270,11 +273,14 @@ public class Play
                 System.out.println("\t\tMatch End");
             }
             //striker and non striker details added to the battingScoreBoard will innings over
-            if(!battingScoreBoard.containsKey(striker))
-                battingScoreBoard.put(striker+" Not Out", Arrays.toString(strikerScoreDetails));
-            if(!battingScoreBoard.containsKey(nonStriker))
-                battingScoreBoard.put(nonStriker+" Not Out", Arrays.toString(nonStrikerScoreDetails));
-
+            if(check==0)    
+            {
+                if(!battingScoreBoard.containsKey(striker))
+                    battingScoreBoard.put(striker+" Not Out", Arrays.toString(strikerScoreDetails));
+                if(!battingScoreBoard.containsKey(nonStriker))
+                    battingScoreBoard.put(nonStriker+" Not Out", Arrays.toString(nonStrikerScoreDetails));
+            }
+            
             while(batterId<battingTeam.length)
             {
                 battingScoreBoard.put(battingTeam[batterId++],"");
