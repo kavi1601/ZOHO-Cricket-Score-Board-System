@@ -6,31 +6,34 @@ import java.util.Scanner;
 public class CricketMatch 
 {
     static Scanner scanner=new Scanner(System.in);
-    MatchDetails matchDetails=new MatchDetails();
-    Play play=new Play();
+    static Play play=new Play();
+    static MatchDetails matchDetails=new MatchDetails();
     ScoreBoard scoreBoard=new ScoreBoard();
     
-    private void winningDetails(String teamName,int teamScore,String offonentTeamName,int offonentTeamScore)
+    private void winningDetails(String teamName,int teamScore,String opponentTeamName,int opponentTeamScore)
     {
-        if(teamScore==offonentTeamScore)
+        if(teamScore==opponentTeamScore)
         {
             System.out.println("\t******** Match Tie ********");
+            System.out.println("Team Name : "+teamName+" Team Score : "+teamScore+"\nOffonent Team Name : "+opponentTeamName+" Offonent Team Score :"+opponentTeamScore);
         }
-        else if(teamScore>offonentTeamScore)
+        else if(teamScore>opponentTeamScore)
         {
             System.out.printf("\t******** Team %s Won the Match ********\n",teamName);
+            System.out.println("Team Name : "+teamName+" Team Score : "+teamScore+"\nOffonent Team Name : "+opponentTeamName+" Offonent Team Score :"+opponentTeamScore);
         }
         else
         {
-            System.out.printf("\t******** Team %s Won the Match ********\n",offonentTeamName); 
-            String temp=teamName;teamName=offonentTeamName;offonentTeamName=temp;
+            System.out.printf("\t******** Team %s Won the Match ********\n",opponentTeamName); 
+            String temp=teamName;teamName=opponentTeamName;opponentTeamName=temp;
+            System.out.println("Team Name : "+teamName+" Team Score : "+opponentTeamScore+"\nOffonent Team Name : "+opponentTeamName+" Offonent Team Score :"+teamScore);
         }
         
         System.out.printf("\t\t\tTeam %s Score Board \n",teamName);
         scoreBoard.printScoreBoard(teamName);
         
-        System.out.printf("\t\t\tTeam %s Score Board \n",offonentTeamName);
-        scoreBoard.printScoreBoard(offonentTeamName);
+        System.out.printf("\t\t\tTeam %s Score Board \n",opponentTeamName);
+        scoreBoard.printScoreBoard(opponentTeamName);
         
     }
     
@@ -41,14 +44,14 @@ public class CricketMatch
         
         System.out.println("Team A Batting && Team B Bowling");
         //play.gamePlay method returns the teamAScore for first innings
-        teamAScore=play.gamePlay(MatchDetails.teamAPlayersList, MatchDetails.teamBPlayersList, matchDetails.over,"A",null);  
+        teamAScore=play.gamePlay(matchDetails.teamAPlayersList, matchDetails.teamBPlayersList, matchDetails.over,"A",null);  
         
         System.out.println("Team A Score :"+teamAScore); 
-        System.out.println("Team B Target Runs "+(teamAScore+1));
+        System.out.println("Team B Target Score "+(teamAScore+1));
         
         System.out.println("\nTeam B Batting && Team A Bowling");
         //play.gamePlay method returns the teamBScore for second innings
-        teamBScore=play.gamePlay(MatchDetails.teamBPlayersList, MatchDetails.teamAPlayersList, matchDetails.over,"B",teamAScore); 
+        teamBScore=play.gamePlay(matchDetails.teamBPlayersList, matchDetails.teamAPlayersList, matchDetails.over,"B",teamAScore); 
         
         winningDetails("A",teamAScore,"B",teamBScore);
     }
@@ -60,14 +63,14 @@ public class CricketMatch
         
         System.out.println("Team B Batting && Team A Bowling");
         //play.gamePlay method returns the teamBScore for first innings
-        teamBScore=play.gamePlay(MatchDetails.teamBPlayersList, MatchDetails.teamAPlayersList, matchDetails.over,"B",null);
+        teamBScore=play.gamePlay(matchDetails.teamBPlayersList, matchDetails.teamAPlayersList, matchDetails.over,"B",null);
         
         System.out.println("Team B Score:"+teamBScore);
-        System.out.println("Team A Target Runs "+(teamBScore+1));
+        System.out.println("Team A Target Score "+(teamBScore+1));
       
         System.out.println("\nTeam A Batting && Team B Bowling");
         //play.gamePlay method returns the teamAScore for second innings
-        teamAScore=play.gamePlay(MatchDetails.teamAPlayersList, MatchDetails.teamBPlayersList, matchDetails.over,"A",teamBScore);
+        teamAScore=play.gamePlay(matchDetails.teamAPlayersList, matchDetails.teamBPlayersList, matchDetails.over,"A",teamBScore);
         
         winningDetails("B",teamBScore,"A",teamAScore);
     }
@@ -76,7 +79,7 @@ public class CricketMatch
     {
         
         System.out.println("Welcome to the cricketMatch\nChoose the toss 1 or 0");
-        int toss=scanner.nextInt(); 
+        int toss=play.getInput(matchDetails.tossInputChecker);//scanner.nextInt(); 
         //predicting the toss result randomly
         int tossResult=(int)(Math.random()*10)%2;
         CricketMatch cricketMatch=new CricketMatch();
@@ -86,9 +89,9 @@ public class CricketMatch
         //otherwise teamB Bats | teamA Bowls
         if(toss==tossResult)
         {
-            System.out.println("Toss won by 'Team A'\nEnter 1 for Batting\nEnter 2 for Bowling");
-            int rs=scanner.nextInt();
-            if(rs==1)
+            System.out.println("Toss won by 'Team A'\nChoose for Batting Enter 1\nChoose for Bowling Enter 2");
+            int fieldResult=play.getInput(matchDetails.fieldInputChecker);
+            if(fieldResult==1)
             {
                 cricketMatch.teamABatting();
             }
@@ -100,9 +103,9 @@ public class CricketMatch
         
         else
         {
-            System.out.println("Toss won by 'Team B'\nEnter 1 for Batting\nEnter 2 for Bowling");
-            int rs=scanner.nextInt();
-            if(rs==1)
+            System.out.println("Toss won by 'Team B'\nChoose for Batting Enter 1\nChoose for Bowling Enter 2");
+            int fieldResult=play.getInput(matchDetails.fieldInputChecker);
+            if(fieldResult==1)
             {
                 cricketMatch.teamBBatting();
             }

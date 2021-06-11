@@ -1,8 +1,10 @@
 
 package CricketScoreBoard;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -66,12 +68,37 @@ public class Play
             default -> {break;}
         }
     }
-    
+    public int getInput(int[] checkInput)
+    {
+        int input=-1;
+        OUTER:while(true)
+        {
+            try
+            {
+                input=scanner.nextInt(); 
+                for(int index=0;index<checkInput.length;index++)
+                {
+                    if(input==checkInput[index])
+                    {
+                        break OUTER;
+                    }
+                }
+                System.out.println("Enter the correct option");
+                
+            }
+            catch(InputMismatchException e)
+            {
+                scanner.next();
+                System.out.println("Invalid input enter the correct format");
+            }
+        }
+        return input;
+    }
     public int gamePlay(String[] battingTeam,String[] bowlingTeam,int over,String teamName,Integer score)
     {       
         LinkedHashMap<String,String> battingScoreBoard=new LinkedHashMap<>();
         LinkedHashMap<String,String> bowlingScoreBoard=new LinkedHashMap<>();
-     
+        ArrayList<Object> overSummary=null;
         int overCount,ballCount,bowlerId=0,batterId=0,teamScore=0,wicketCount=0; 
         
         //getting the current striker, non striker and bowler name 
@@ -91,7 +118,7 @@ public class Play
         OUTER: for(overCount=0;overCount<over;overCount++)
         {
             ballCount=0;
-            
+            overSummary=new ArrayList<>();
             //current bowler details 
             if(bowlingScoreBoard.containsKey(bowlerName)) 
             {
@@ -108,29 +135,19 @@ public class Play
             while(ballCount<6)
             {
                 System.out.println("1:Runs 2:Extras 3:Wicket");
-                int ballOutCome=scanner.nextInt(); 
+                int ballOutCome=getInput(matchDetails.ballOutComeInputChecker);//scanner.nextInt(); 
                 switch(ballOutCome)
                 {
                     case 1 -> 
                     {
                         
                         System.out.println("Enter the run");
-                        int run=scanner.nextInt();
-                        /*while(!scanner.hasNextInt())//run!=1 && run!=2 && run!=3 && run!=4 && run!=6 && run!=0)
-                        try
-                        {
-                            System.out.println("Not an Int");
-                            run=scanner.nextInt();
-                        } 
-                        catch(InputMismatchException e)
-                        {
-                            System.out.println(e);
-                        }*/
+                        int run=getInput(matchDetails.runInputChecker); 
+                        overSummary.add(run);
                         strikerScoreDetails[3]+=1;
                         teamScore+=run; 
                         bowlingDetails[0]+=run;
                         strikerScoreDetails[0]+=run;
-                      
                         if(run==4 || run==6) 
                         {
                             if(run==4)
@@ -160,6 +177,7 @@ public class Play
                     case 2 -> 
                     { 
                         bowlingDetails[0]+=1;
+                        overSummary.add("WB");
                         teamScore+=1;
                         ballCount-=1;
                     }
@@ -170,14 +188,15 @@ public class Play
                         //bowler taken wicket incremented by 1
                         bowlingDetails[1]+=1;
                         strikerScoreDetails[3]+=1;
+                        overSummary.add("B");
                         wicketCount+=1;
                         
-                        String wicketDetail=striker+" Out by "+bowlerName;
+                        String strikerOutByBowler=striker+" Out by "+bowlerName;
                         //striker details is added to the batting score board after the wicket  
-                        battingScoreBoard.put(wicketDetail,Arrays.toString(strikerScoreDetails));
-                        
+                        battingScoreBoard.put(strikerOutByBowler,Arrays.toString(strikerScoreDetails));
+                        strikerScoreDetails(strikerOutByBowler,strikerScoreDetails);
                         System.out.println("\nFall Of Wicket :"+teamScore+"/"+wicketCount);
-                        strikerScoreDetails(wicketDetail,strikerScoreDetails); 
+                         
                         
                         //if the team all out,the innings will end
                         if(batterId==battingTeam.length)
@@ -200,7 +219,7 @@ public class Play
                 //second innings score is greater than first innings score match will end
                 if(score!=null && teamScore>score)
                 {
-                    System.out.printf("Team %s Won %d Wickets\n",teamName,10-wicketCount);
+                    System.out.printf("Team %s Won by %d Wickets\n",teamName,10-wicketCount);
                     bowlingDetails[2]+=ballCount+1;
                     bowlingScoreBoard.put(bowlerName, Arrays.toString(bowlingDetails));
                     System.out.printf("Team Name :%s\tTeam Score-Wicket :%d-%d\tOver :%d.%d\n",teamName,teamScore,wicketCount,overCount,ballCount);
@@ -210,11 +229,13 @@ public class Play
                 //print the runs to win in remaining ball 
                 if(score!=null)
                 {
-                    System.out.printf("Need %d Runs From %d balls\n",(score-teamScore+1),(over*6)-(overCount*6+ballCount+1));
+                    System.out.printf("Team %s Need %d Runs From %d Balls\n",teamName,(score-teamScore+1),(over*6)-(overCount*6+ballCount+1));
                 }
                 
                 ballCount+=1;
                 System.out.printf("Team Name :%s\tTeam Score-Wicket :%d-%d\tOver :%d.%d\n",teamName,teamScore,wicketCount,overCount,ballCount);
+            
+                System.out.println("Over Summary : "+overSummary);
             }
             
             System.out.printf("\nRun Rate :%.2f\n",runRate((overCount+(ballCount/10.00)),teamScore));
@@ -236,7 +257,14 @@ public class Play
                 bowlerId=0;
             } 
         }  
-        
+        if(score==null) 
+        {
+            System.out.println("\t\tFirst Innings End");
+        }
+        /*else
+        {
+            System.out.println("\t\tSecond Innings ");
+        }*/
         //striker and non striker details added to the battingScoreBoard will innings over
         if(!battingScoreBoard.containsKey(striker))
             battingScoreBoard.put(striker+" Not Out", Arrays.toString(strikerScoreDetails));
@@ -245,7 +273,7 @@ public class Play
         
         while(batterId<battingTeam.length)
         {
-            battingScoreBoard.put(battingTeam[batterId++],"");
+            battingScoreBoard.put(battingTeam[batterId++]+" did not batted ","");
         }
         
         addScoreBoardDetails(battingScoreBoard,bowlingScoreBoard,teamName);         
