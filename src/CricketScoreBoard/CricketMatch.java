@@ -15,18 +15,18 @@ public class CricketMatch
         if(teamScore==opponentTeamScore)
         {
             System.out.println("\t******** Match Tie ********");
-            System.out.println("Team Name : "+teamName+" Team Score : "+teamScore+"\nOffonent Team Name : "+opponentTeamName+" Offonent Team Score :"+opponentTeamScore);
+            System.out.println("Team Name : "+teamName+" Team Score : "+teamScore+"\nOpponent Team Name : "+opponentTeamName+" Offonent Team Score :"+opponentTeamScore);
         }
         else if(teamScore>opponentTeamScore)
         {
             System.out.printf("\t******** Team %s Won the Match ********\n",teamName);
-            System.out.println("Team Name : "+teamName+" Team Score : "+teamScore+"\nOffonent Team Name : "+opponentTeamName+" Offonent Team Score :"+opponentTeamScore);
+            System.out.println("Team Name : "+teamName+" Team Score : "+teamScore+"\nOpponent Team Name : "+opponentTeamName+" Offonent Team Score :"+opponentTeamScore);
         }
         else
         {
             System.out.printf("\t******** Team %s Won the Match ********\n",opponentTeamName); 
             String temp=teamName;teamName=opponentTeamName;opponentTeamName=temp;
-            System.out.println("Team Name : "+teamName+" Team Score : "+opponentTeamScore+"\nOffonent Team Name : "+opponentTeamName+" Offonent Team Score :"+teamScore);
+            System.out.println("Team Name : "+teamName+" Team Score : "+opponentTeamScore+"\nOpponent Team Name : "+opponentTeamName+" Offonent Team Score :"+teamScore);
         }
         
         System.out.printf("\t\t\tTeam %s Score Board \n",teamName);
