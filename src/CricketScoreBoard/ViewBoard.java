@@ -11,12 +11,13 @@ public class ViewBoard
         
         Scanner scanner=new Scanner(System.in); 
         MatchDetails matchDetails=new MatchDetails();
+        Play play=new Play();
         ScoreBoard scoreBoard=new ScoreBoard();
         boolean end=false;
         
         OUTER:while (!end) {
-            System.out.println("Enter 1 to view the Players name 2 to view the ScoreBoard");
-            int input=scanner.nextInt();
+            System.out.println("Enter 1 to view the Players name 2 to view the ScoreBoard 3 to terminate the view Board");
+            int input=play.getInput(matchDetails.viewOptionChecker);//scanner.nextInt();
             switch (input) 
             {
                 //to view the both team players List
@@ -41,7 +42,7 @@ public class ViewBoard
                 {                    
                     
                     System.out.println("Enter 1 to view the A team Batting Score Board && B team Bowling Score Board\nEnter 2 to view the B team Batting Score Board && A team Bowling Score Board");
-                    int teamName=scanner.nextInt();
+                    int teamName=play.getInput(matchDetails.teamNameChecker);//scanner.nextInt();
                     
                     switch(teamName)
                     {

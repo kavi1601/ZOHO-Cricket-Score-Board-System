@@ -16,13 +16,17 @@ public class MatchDetails
     //bowlingDetails array is bowler scoring details like "index 0->run index 1-> Wickets index 2-> Ball Count"
     final int[] bowlerDetails=new int[]{0,0,0};
     
-    final int[] tossInputChecker=new int[]{0,1}; 
+    final int[] tossInputChecker=new int[]{0,1};            //details like index 0-> head , index ->1 tail
     
-    final int[] fieldInputChecker=new int[]{1,2};
+    final int[] fieldInputChecker=new int[]{1,2};           //details like intdex 0-> batting, index 1->bowling
     
-    final int[] ballOutComeInputChecker=new int[]{1,2,3};
+    final int[] ballOutComeInputChecker=new int[]{1,2,3};   //details like index 0->run ,index 1-> Extras , index 2->wickets
     
-    final int[] runInputChecker=new int[]{0,1,2,3,4,6};
+    final int[] viewOptionChecker=new int[]{1,2,3};         //details like index 0->view player name, index 1->view scoreboare,index 2->terminate the class
+    
+    final int[] runInputChecker=new int[]{0,1,2,3,4,6};     //details like runs 
+    
+    final int[] teamNameChecker=new int[]{1,2};             //details like index 0 -> view the Team A Score Board,index ->2 team B Score Board
 }
 
 
