@@ -135,6 +135,7 @@ public class Play
                 while(ballCount<6)
                 {
                     ballCount+=1;
+                    bowlingDetails[2]+=1;
                     System.out.println("1:Runs 2:Extras 3:Wicket");
                     int ballOutCome=getInput(matchDetails.ballOutComeInputChecker);//scanner.nextInt(); 
                     switch(ballOutCome)
@@ -202,6 +203,7 @@ public class Play
                             //if the team all out,the innings will end
                             if(batterId==battingTeam.length)
                             {
+                                bowlingScoreBoard.put(bowlerName, Arrays.toString(bowlingDetails));
                                 System.out.println("All Out\n");break OUTER;
                             }
 
@@ -237,12 +239,13 @@ public class Play
                     System.out.printf("Team Name :%s\tTeam Score-Wicket :%d-%d\tOver :%d.%d\n",teamName,teamScore,wicketCount,overCount,ballCount);
 
                     System.out.println("Over Summary : "+overSummary);
+                    
                 }
 
                 System.out.printf("\nRun Rate :%.2f\n",runRate((overCount+(ballCount/10.00)),teamScore));
                 System.out.println("\n\t\tOver is done by "+bowlerName);
 
-                bowlingDetails[2]+=6;  
+                  
                 bowlingScoreBoard.put(bowlerName, Arrays.toString(bowlingDetails));
 
                 //Swapping the stiker and non-sticker batsman when over ends
