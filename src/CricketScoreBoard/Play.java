@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Play 
 {
         Scanner scanner=new Scanner(System.in);
-        ViewBoard viewBoard=new ViewBoard();
+        //ViewBoard viewBoard=new ViewBoard();
         ScoreBoard scoreBoard=new ScoreBoard();
         MatchDetails matchDetails=new MatchDetails();
 
@@ -287,7 +287,7 @@ public class Play
             }
 
             addScoreBoardDetails(battingScoreBoard,bowlingScoreBoard,teamName);         
-            viewBoard.viewDetails();
+            scoreBoard.viewDetails();
             return teamScore;
         }
 }
