@@ -24,11 +24,11 @@ public class Play
         }
 
         //it returns the team run rate 
-        final double runRate(double noOfBalls,int noOfRuns)
+        final double runRate(int noOfOvers,int noOfRuns)
         {
-            if(noOfBalls==0.0)
+            if(noOfOvers==0)
                 return 0;
-            return noOfRuns/noOfBalls;
+            return noOfRuns/noOfOvers;
         }
 
         //it prints the batsman score details after the wicket
@@ -245,7 +245,7 @@ public class Play
                     
                 }
 
-                System.out.printf("\nRun Rate :%.2f\n",runRate((overCount+(ballCount/10.00)),teamScore));
+                System.out.printf("\nRun Rate :%.2f\n",runRate((overCount+1),teamScore));
                 System.out.println("\n\t\tOver is done by "+bowlerName);
 
                   
